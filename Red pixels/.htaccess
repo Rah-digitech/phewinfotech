@@ -1,0 +1,38 @@
+
+Options +FollowSymLinks
+
+RewriteEngine on
+
+RewriteCond %{HTTP_HOST} ^red-pixels.com [NC]
+
+RewriteRule ^(.*)$ http://www.red-pixels.com/$1 [L,R=301]
+
+
+RewriteCond %{THE_REQUEST} ^.*/index.html
+RewriteRule ^(.*)index.html$ http://www.red-pixels.com/$1 [R=301,L]
+RewriteRule ^(.*)index.php$ http://www.red-pixels.com/$1 [R=301,L]
+ 
+
+<filesMatch ".(jpg|jpeg|png|gif|ico)$">
+Header set Cache-Control "max-age=31536000, public"
+</filesMatch>
+
+<filesMatch ".(css|js)$">
+Header set Cache-Control "max-age=2628000, public"
+</filesMatch>
+
+
+RewriteCond %{REQUEST_FILENAME} !-f
+
+RewriteCond %{REQUEST_FILENAME} !-d
+
+RewriteRule ^(.+)$ modwrite.php
+
+ErrorDocument 404 /404.html
+
+<Files 403.shtml>
+order allow,deny
+allow from all
+</Files>
+
+
